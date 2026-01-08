@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 800px;
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+    padding: 40px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.main-content {
+    padding: 40px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hero h2 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 2em;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f8f9ff;
+    min-width: 180px;
+}
+
+.stat-number {
+    font-size: 2.5em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-login {
+    background: #667eea;
+    color: white;
+}
+
+.btn-register {
+    background: #764ba2;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.features {
+    background: #f8f9ff;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 30px;
+}
+
+.features h3 {
+    color: #764ba2;
+    margin-bottom: 20px;
+}
+
+.features ul {
+    list-style: none;
+}
+
+.features li {
+    padding: 10px 0;
+    font-size: 1.1em;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.features li:last-child {
+    border-bottom: none;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: #f1f3ff;
+    color: #666;
+}
+
+.small {
+    font-size: 0.9em;
+    margin-top: 5px;
+}
