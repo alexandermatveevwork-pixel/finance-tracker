@@ -1,64 +1,61 @@
 <?php
-// 1. Подключаем настройки БД
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once 'config/database.php';
 
-echo "<h2>🎯 Тест реального подключения к БД</h2>";
+$error = '';
+$success = '';
 
-// 2. Проверяем что $db создан
-if (!isset($db)) {
-    die("❌ Ошибка: \$db не создан");
+if (isset($_SESSION['user_id'])) {
+    header('Location: dashboard.php');
+    exit();
 }
 
-echo "✅ 1. Объект PDO создан<br>";
+if (isset($_SESSION['registration_success'])) {
+    $success = $_SESSION['registration_success'];
+    unset($_SESSION['registration_success']);
+}
 
-// 3. Пробуем выполнить ПРОСТОЙ запрос
-try {
-    echo "✅ 2. Пытаемся выполнить запрос...<br>";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
     
-    // Запрос 1: Какая версия MySQL?
-    $stmt = $db->query("SELECT VERSION() as mysql_version");
-    $version = $stmt->fetch();
-    echo "✅ 3. Версия MySQL: " . $version['mysql_version'] . "<br>";
-    
-    // Запрос 2: Есть ли наша таблица users?
-    $stmt = $db->query("SHOW TABLES LIKE 'users'");
-    $has_users = $stmt->fetch();
-    
-    if (!empty($has_users)) {
-        echo "✅ 4. Таблица 'users' существует!<br>";
-        
-        // Запрос 3: Сколько записей в users?
-        $stmt = $db->query("SELECT COUNT(*) as count FROM users");
-        $count = $stmt->fetch();
-        echo "✅ 5. Записей в таблице users: " . $count['count'] . "<br>";
+    // Валидация
+    if (empty($email) || empty($password)) {
+        $error = 'Обязательные поля не заполнены';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = 'Неверный формат email';
     } else {
-        echo "❌ 4. Таблица 'users' НЕ существует!<br>";
-        echo "<p style='color: orange;'>Нужно создать таблицу через phpMyAdmin</p>";
-    }
-    
-    // Запрос 4: Покажем все таблицы
-    echo "<h3>📋 Все таблицы в базе:</h3>";
-    $stmt = $db->query("SHOW TABLES");
-    $tables = $stmt->fetchAll();
-    
-    if (count($tables) > 0) {
-        echo "<ul>";
-        foreach ($tables as $table) {
-            $table_name = $table['Tables_in_finance_tracker'] ?? $table[0];
-            echo "<li>" . htmlspecialchars($table_name) . "</li>";
+        // Ищем пользователя
+        try {
+            $sql = "SELECT id, email, password_hash FROM users WHERE email = ?";
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$email]);
+
+            if ($stmt->rowCount() === 1) {
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                // Чекаем пароль(правильный или нет)
+                if(password_verify($password, $user['password_hash'])) {
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_email'] = $user['email'];
+
+                    // Успешный вход
+                    header('Location: dashboard.php');
+                    exit();
+                } else {
+                    $error = 'Неверный email или пароль';
+                }
+            } else {
+                $error = 'Неверный email или пароль';
+            }
+        } catch (PDOException $e) {
+            $error = 'Ошибка БД: ' . $e->getMessage();
         }
-        echo "</ul>";
-    } else {
-        echo "<p>Таблиц нет</p>";
     }
-    
-} catch (PDOException $e) {
-    echo "<div style='background: #ffe6e6; padding: 15px; border-radius: 5px;'>";
-    echo "❌ Ошибка при запросе:<br>";
-    echo "<strong>" . htmlspecialchars($e->getMessage()) . "</strong>";
-    echo "</div>";
 }
 
-echo "<hr>";
-echo "<p style='color: green; font-weight: bold;'>🎉 Если видите версию MySQL - подключение РАБОТАЕТ!</p>";
-?>
+require_once 'html/login_form.php';
+
