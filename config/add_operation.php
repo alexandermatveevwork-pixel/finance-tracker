@@ -1,11 +1,9 @@
 <?php
-
-//Добавление операций (ДОХОД ИЛИ РАСХОД)
-
+// config/add_operation.php - обработчик добавления операции
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: ../login.php');
     exit();
 }
 
@@ -21,15 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($amount > 0 && $category_id > 0) {
         try {
-            $check_stmt = $db->prepare("SELECT id FROM categories WHERE id = ? AND user_id = ?");
+            // Проверяем, что категория принадлежит пользователю И получаем её название
+            $check_stmt = $db->prepare("SELECT id, name FROM categories WHERE id = ? AND user_id = ?");
             $check_stmt->execute([$category_id, $user_id]);
 
             if ($check_stmt->rowCount() > 0) {
+                // Получаем название категории
+                $category = $check_stmt->fetch(PDO::FETCH_ASSOC);
+                $category_name = $category['name'];
+                
+                // Добавляем операцию с сохранением названия категории
                 $stmt = $db->prepare("
-                    INSERT INTO transactions (user_id, category_id, amount, description, date) 
-                    VALUES (?, ?, ?, ?, ?)
+                    INSERT INTO transactions (user_id, category_id, category_name, amount, description, date) 
+                    VALUES (?, ?, ?, ?, ?, ?)
                 ");
-                $stmt->execute([$user_id, $category_id, $amount, $description, $date]);
+                $stmt->execute([$user_id, $category_id, $category_name, $amount, $description, $date]);
 
                 $_SESSION['success'] = '✅ Операция успешно добавлена!';
             } else {
@@ -45,3 +49,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 header('Location: ../dashboard.php');
 exit();
+?>

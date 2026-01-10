@@ -94,7 +94,7 @@
                            placeholder="Например: Зарплата за январь">
                 </div>
                 
-                <button type="submit" class="btn-submit">💾 Сохранить операцию</button>
+                    <button type="submit" class="btn-submit">💾 Сохранить операцию</button>
             </form>
         </div>
         
@@ -114,6 +114,7 @@
                             <th>Категория</th>
                             <th>Описание</th>
                             <th>Сумма</th>
+                            <th>Удалить</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,6 +129,14 @@
                                 <?php echo $is_income ? '+' : '-'; ?>
                                 <?php echo number_format($transaction['amount'], 2, '.', ' '); ?> ₽
                             </td>
+                            <td class="action-cell">
+                            <a href="config/delete_operation.php?id=<?php echo $transaction['id']; ?>" 
+                            class="delete-btn" 
+                            onclick="return confirm('Удалить операцию?\n\n<?php echo htmlspecialchars($transaction['category_name']) . ' - ' . number_format($transaction['amount'], 2, '.', ' ') . ' ₽\nДата: ' . $transaction['date']; ?>')"
+                            title="Удалить операцию">
+                            ✕
+                            </a>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -138,6 +147,7 @@
         <!-- Ссылки -->
         <div class="actions">
             <a href="index.php" class="btn-home">← На главную</a>
+            <a href="categories.php" class="btn-home">🏷️ Добавить категории</a>
         </div>
     </div>
 </body>
