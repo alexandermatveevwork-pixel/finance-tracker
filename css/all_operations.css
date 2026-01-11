@@ -1,0 +1,124 @@
+.all-operations-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+        
+.operations-summary {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #eee;
+}
+        
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+        
+.summary-item {
+    text-align: center;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+        
+.summary-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+        
+.summary-label {
+    color: #666;
+    font-size: 14px;
+}
+        
+.operations-actions {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+        
+.btn-export {
+    background: #2ecc71;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 2px solid #2ecc71;
+        }
+        
+.btn-export:hover {
+    background: white;
+    color: #2ecc71;
+}
+        
+.btn-back {
+    background: #667eea;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 2px solid #667eea;
+}
+        
+.btn-back:hover {
+    background: white;
+    color: #667eea;
+}
+        
+.no-operations-large {
+    text-align: center;
+    padding: 60px 40px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    border: 2px dashed #ddd;
+    margin: 30px 0;
+}
+        
+.no-operations-large h3 {
+    color: #666;
+    margin-bottom: 15px;
+}
+        
+.operations-count {
+    background: #667eea;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+    .all-operations-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .operations-actions {
+        justify-content: center;
+    }
+    
+    .summary-stats {
+        grid-template-columns: 1fr;
+    }
+}

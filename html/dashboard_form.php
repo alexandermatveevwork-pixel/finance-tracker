@@ -148,6 +148,7 @@
         <div class="actions">
             <a href="index.php" class="btn-home">← На главную</a>
             <a href="categories.php" class="btn-home">🏷️ Добавить категории</a>
+            <a href="all_operations.php" class="btn-home">📋 Показать все операции</a>
         </div>
     </div>
 </body>
